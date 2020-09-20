@@ -1,5 +1,5 @@
 import firebase, {firestore,storage} from "../../firebase/firebase";
-
+import * as actionTypes from "./actionTypes";
 export const addCrack = (data) => {
     return () => {
     const date = new Date();
@@ -36,3 +36,18 @@ export const addCrack = (data) => {
     };
   };
   
+export const getCracks = () =>{
+      return (dispatch)=>{
+          let cracks = [];
+          firestore
+          .collection("cracks")
+          .orderBy("timestamp", "desc")
+          .onSnapshot((querySnapshot)=>{
+              querySnapshot.forEach(doc=>{
+                cracks.push({id: doc.id, ...doc.data()})
+              })
+            dispatch({type: actionTypes.VIEW_CRACKS, cracks})
+            cracks = []
+          })
+      }
+  }

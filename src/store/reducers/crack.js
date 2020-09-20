@@ -1,12 +1,12 @@
 import * as actionTypes from "../actions/actionTypes";
 const intialState = {
-  cracks: null,
-  crackInfo: null,
+  cracks: [],
+  crackInfo: [],
 };
 
 const crackReducer = (state = intialState, action) => {
   switch (action.type) {
-    case actionTypes.ADD_CRACK:
+    case actionTypes.VIEW_CRACKS:
       return {
         ...state,
         cracks: action.cracks,

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   Typography,
   Button,
@@ -13,12 +13,14 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Link } from "react-router-dom";
 import EntryModal from "../../components/EntryModal/EntryModal";
+import { connect } from "react-redux";
+import * as actionCreator from "../../store/actions";
+import moment from "moment";
 import style from "./Home.module.css";
-const Home = () => {
-  const products = [];
+const Home = ({getCracks, cracks}) => {
   const [modalState, setModalState] = useState(false);
   const openModal = ()=>{
     setModalState(true);
@@ -26,6 +28,10 @@ const Home = () => {
   const closeModal =(value)=>{
     setModalState(!value);
   }
+
+  useEffect(()=>{
+    getCracks()
+  },[getCracks])
   return (
     <div className={style.home}>
       <div className={style.home_body}>
@@ -42,25 +48,25 @@ const Home = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Structure Name</TableCell>
-                    <TableCell align="right">Location</TableCell>
-                    <TableCell align="right">Entry Date</TableCell>
-                    <TableCell align="right">Author</TableCell>
-                    <TableCell align="right">Action</TableCell>
+                    <TableCell align="center">Location</TableCell>
+                    <TableCell align="center">Entry Date</TableCell>
+                    <TableCell align="center">Author</TableCell>
+                    <TableCell align="center">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {products.map((data) => (
+                  {cracks.map((data) => (
                     <TableRow key={data.id}>
                       <TableCell component="th" scope="row">
                         {data.name}
                       </TableCell>
-                      <TableCell align="right">${data.price}</TableCell>
-                      <TableCell align="right">{data.quantity}</TableCell>
-                      <TableCell align="right">{data.category}</TableCell>
-                      <TableCell align="right">
-                        <Link to={`/edit/product/${data.id}`}>
+                      <TableCell align="center">{data.location}</TableCell>
+                      <TableCell align="center">{ (data?.timestamp) ? moment(data.timestamp.toDate()).format('dddd MMMM D YYYY') : "Loading..."}</TableCell>
+                      <TableCell align="center">{data.author}</TableCell>
+                      <TableCell align="center">
+                        <Link to={`/crack/${data.id}`}>
                           <IconButton color="primary">
-                            <EditIcon />
+                            <VisibilityIcon />
                           </IconButton>{" "}
                         </Link>
                       </TableCell>
@@ -77,4 +83,16 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    cracks: state.crack.cracks,
+  };
+};
+
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    getCracks: ()=> dispatch(actionCreator.getCracks())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
