@@ -15,8 +15,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { Link } from "react-router-dom";
-import Navbar from "../../component/Navbar/Navbar";
-import EntryModal from "../../component/EntryModal/EntryModal";
+import EntryModal from "../../components/EntryModal/EntryModal";
 import style from "./Home.module.css";
 const Home = () => {
   const products = [];
@@ -29,7 +28,6 @@ const Home = () => {
   }
   return (
     <div className={style.home}>
-      <Navbar />
       <div className={style.home_body}>
         <Button size="large" color="primary" variant="contained" className={style.addButton} onClick={openModal}>
           Add Data

@@ -29,7 +29,7 @@ const EntryModal = ({ modalState, closeModal }) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [author, setAuthor] = useState("");
-  const [date, setDate] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const handleClose = () => {
     closeModal(true);
   };
@@ -75,8 +75,7 @@ const EntryModal = ({ modalState, closeModal }) => {
               className={style.displayPhoto}
               id="raised-button-file"
               type="file"
-              onChange={(e) => {
-              }}
+              onChange={(e) => { setPhotoURL(e.target.files[0])}}
               required
             />
             <TextField
@@ -86,13 +85,6 @@ const EntryModal = ({ modalState, closeModal }) => {
               className={style.input}
               onChange={(e) => setAuthor(e.target.value)}
             />
-            <TextField
-            type="date"
-            variant="outlined"
-            size="small"
-            className={style.input}
-            onChange={(e) => setDate(e.target.value)}
-          />
             <Button
               variant="contained"
               color="primary"
