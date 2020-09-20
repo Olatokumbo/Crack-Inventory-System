@@ -10,6 +10,7 @@ import {
   TextareaAutosize,
 } from "@material-ui/core";
 import { connect } from "react-redux";
+import * as actionCreator from "../../store/actions";
 import style from "./EntryModal.module.css";
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -26,18 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EntryModal = ({ modalState, closeModal, displayName }) => {
+const EntryModal = ({ modalState, closeModal, displayName, addCrack }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [author, setAuthor] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [recommendation, setRecommendation] = useState("");
+  const [image, setImage] = useState("");
   const handleClose = () => {
     closeModal(true);
   };
 
-  const enterRoomClick = () => {
-    // enterRoom(uid, name, password);
+  const AddEntry = (e) => {
+    e.preventDefault();
+    addCrack({displayName, name, location, image, recommendation})
     handleClose();
   };
   return (
@@ -59,7 +61,7 @@ const EntryModal = ({ modalState, closeModal, displayName }) => {
             <Typography align="center" gutterBottom>
               Add an Entry
             </Typography>
-            <form>
+            <form onSubmit={AddEntry}>
               <TextField
                 autoFocus={true}
                 variant="outlined"
@@ -81,7 +83,7 @@ const EntryModal = ({ modalState, closeModal, displayName }) => {
                 id="raised-button-file"
                 type="file"
                 onChange={(e) => {
-                  setPhotoURL(e.target.files[0]);
+                  setImage(e.target.files[0]);
                 }}
                 required
               />
@@ -98,23 +100,24 @@ const EntryModal = ({ modalState, closeModal, displayName }) => {
                 rowsMax={20}
                 aria-label="maximum height"
                 placeholder="Recommendation"
+                onChange={(e)=>setRecommendation(e.target.value)}
               />
               <Button
+                type="submit"
                 variant="contained"
                 color="primary"
-                onClick={enterRoomClick}
               >
                 Add
               </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Cancel
+              </Button>
             </form>
-            <Button
-              variant="contained"
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              Cancel
-            </Button>
           </div>
         </div>
       </Fade>
@@ -127,4 +130,10 @@ const mapStateToProps = (state) => {
     displayName: state.auth.displayName,
   };
 };
-export default connect(mapStateToProps)(EntryModal);
+
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    addCrack: (data)=> dispatch(actionCreator.addCrack(data))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EntryModal);

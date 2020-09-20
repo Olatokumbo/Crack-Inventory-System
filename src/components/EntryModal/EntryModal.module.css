@@ -2,7 +2,10 @@
     display: flex;
     flex-direction: column;
 }
-
-.container > *{
+.container > form{
+    display: flex !important;
+    flex-direction: column !important;
+}
+.container > form > *{
     margin: 0.5rem !important;
 }
