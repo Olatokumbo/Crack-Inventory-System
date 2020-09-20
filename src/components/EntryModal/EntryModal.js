@@ -7,7 +7,9 @@ import {
   TextField,
   Button,
   Typography,
+  TextareaAutosize,
 } from "@material-ui/core";
+import { connect } from "react-redux";
 import style from "./EntryModal.module.css";
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EntryModal = ({ modalState, closeModal }) => {
+const EntryModal = ({ modalState, closeModal, displayName }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -54,44 +56,57 @@ const EntryModal = ({ modalState, closeModal }) => {
       <Fade in={modalState}>
         <div className={classes.paper}>
           <div className={style.container}>
-            <Typography align="center" gutterBottom>Add an Entry</Typography>
-            <TextField
-              autoFocus={true}
-              variant="outlined"
-              label="Structure Name"
-              size="small"
-              className={style.input}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              label="Location"
-              size="small"
-              className={style.input}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <input
-              accept="image/*"
-              className={style.displayPhoto}
-              id="raised-button-file"
-              type="file"
-              onChange={(e) => { setPhotoURL(e.target.files[0])}}
-              required
-            />
-            <TextField
-              variant="outlined"
-              label="Author"
-              size="small"
-              className={style.input}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={enterRoomClick}
-            >
-              Add
-            </Button>
+            <Typography align="center" gutterBottom>
+              Add an Entry
+            </Typography>
+            <form>
+              <TextField
+                autoFocus={true}
+                variant="outlined"
+                label="Structure Name"
+                size="small"
+                className={style.input}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                variant="outlined"
+                label="Location"
+                size="small"
+                className={style.input}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+              <input
+                accept="image/*"
+                className={style.displayPhoto}
+                id="raised-button-file"
+                type="file"
+                onChange={(e) => {
+                  setPhotoURL(e.target.files[0]);
+                }}
+                required
+              />
+              <TextField
+                disabled
+                variant="outlined"
+                label="Author"
+                size="small"
+                className={style.input}
+                defaultValue={displayName}
+              />
+              <TextareaAutosize
+                rowsMin={10}
+                rowsMax={20}
+                aria-label="maximum height"
+                placeholder="Recommendation"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={enterRoomClick}
+              >
+                Add
+              </Button>
+            </form>
             <Button
               variant="contained"
               onClick={() => {
@@ -107,4 +122,9 @@ const EntryModal = ({ modalState, closeModal }) => {
   );
 };
 
-export default EntryModal;
+const mapStateToProps = (state) => {
+  return {
+    displayName: state.auth.displayName,
+  };
+};
+export default connect(mapStateToProps)(EntryModal);

@@ -10,6 +10,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.SIGNIN_SUCCESS:
       return {
         uid: action.uid,
+        displayName: action.displayName,
         errorMessage: null,
       };
     case actionTypes.SIGNOUT_SUCCESS:
