@@ -1,16 +1,23 @@
-import firebase, { firestore } from "../../firebase/firebase";
-
-export const startSignin = (data) => {
+import { provider, auth } from "../../firebase/firebase";
+import * as actionTypes from "./actionTypes";
+export const startSignin = () => {
   return () => {
-    firestore
-      .collection("cracks")
-      .add({
-        name: data.name,
-        location: data.location,
-        author: data.author,
-        photoURL: data.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        console.log("User has Signed in");
       })
-      .then(() => {});
+      .catch((e) => {
+        console.log(e.message);
+      });
+  };
+};
+
+export const startSignout = () => {
+  return (dispatch) => {
+    auth.signOut().then(() => {
+      console.log("Signed Out");
+      dispatch({ type: actionTypes.SIGNOUT_SUCCESS });
+    });
   };
 };

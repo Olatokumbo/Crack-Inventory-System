@@ -1,1 +1,1 @@
-export { startSignin } from "./auth";
+export { startSignin, startSignout } from "./auth";

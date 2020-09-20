@@ -18,15 +18,14 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
-
-
 firebase.auth().onAuthStateChanged((user)=>{
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  );
+  
   if(user){
     store.dispatch({type: actionTypes.SIGNIN_SUCCESS, uid: user.uid})
   }
