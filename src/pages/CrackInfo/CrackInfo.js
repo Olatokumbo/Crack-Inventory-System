@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { connect } from "react-redux";
+import moment from "moment";
 import * as actionCreator from "../../store/actions";
 import style from "./CrackInfo.module.css";
 const CrackInfo = ({
@@ -24,7 +25,7 @@ const CrackInfo = ({
     return () => {
       resetCrackInfo();
     };
-  }, [getCrackInfo, crackId]);
+  }, [getCrackInfo, crackId, resetCrackInfo]);
   if (!crackInfo) {
     return (
       <div className={style.loading}>
@@ -43,6 +44,7 @@ const CrackInfo = ({
               </Typography>
               <Typography>Location: {crackInfo.location}</Typography>
               <Typography>Author: {crackInfo.author}</Typography>
+              <Typography>Entry Date: { (crackInfo?.timestamp) ? moment(crackInfo.timestamp.toDate()).format('MMMM D YYYY') : "Loading..."}</Typography>
               <img src={crackInfo.photoURL} alt="Crack_Image" />
               <Typography>
                 Recommendation: {crackInfo.recommendation}
