@@ -1,2 +1,2 @@
 export { startSignin, startSignout } from "./auth";
-export { addCrack, getCracks } from "./crack";
+export { addCrack, getCracks, getCrackInfo } from "./crack";

@@ -51,7 +51,7 @@ const Home = ({getCracks, cracks}) => {
                     <TableCell align="center">Location</TableCell>
                     <TableCell align="center">Entry Date</TableCell>
                     <TableCell align="center">Author</TableCell>
-                    <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">View</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

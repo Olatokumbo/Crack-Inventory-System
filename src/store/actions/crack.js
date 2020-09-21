@@ -51,3 +51,15 @@ export const getCracks = () =>{
           })
       }
   }
+export const getCrackInfo = (id) =>{
+    return (dispatch)=>{
+        firestore
+        .collection("cracks")
+        .doc(id)
+        .get()
+        .then((doc)=>{
+            dispatch({type: actionTypes.VIEW_CRACK_INFO, crackInfo: {id: doc.id, ...doc.data()} })
+        }).then(()=>{
+        })
+    }
+}
