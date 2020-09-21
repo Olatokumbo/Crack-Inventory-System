@@ -15,6 +15,11 @@
     flex-direction: column !important;
     overflow: auto;
 }
+.loading{
+    margin-top: 2rem;
+    display: grid;
+    place-items: center;
+}
 
 .cardContent > img{
     width: 50rem;

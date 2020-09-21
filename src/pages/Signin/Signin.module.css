@@ -15,7 +15,7 @@ body{
 }
 .left{
     flex:1;
-    background-image: url("../../assets/images/admin.jpg");
+    background-image: url("../../assets/images/crack.jpg");
     background-position: center;
     background-size: cover;
     background-attachment: inherit;
@@ -46,7 +46,7 @@ body{
 }
 
 .logo{
-    width: 3rem;
+    width: 4rem;
     height: auto;
     margin: 0.5rem;
 }

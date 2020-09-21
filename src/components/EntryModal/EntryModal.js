@@ -106,6 +106,7 @@ const EntryModal = ({ modalState, closeModal, displayName, addCrack }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                disabled={!(name && location && recommendation && image)}
               >
                 Add
               </Button>

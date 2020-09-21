@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 const intialState = {
   cracks: [],
-  crackInfo: {},
+  crackInfo: null,
 };
 
 const crackReducer = (state = intialState, action) => {
@@ -16,10 +16,14 @@ const crackReducer = (state = intialState, action) => {
         ...state,
         crackInfo: action.crackInfo,
       };
+    case actionTypes.RESET_CRACK_INFO:
+      return {
+        ...state,
+        crackInfo: null,
+      };
     default:
-        return state
+      return state;
   }
 };
-
 
 export default crackReducer;

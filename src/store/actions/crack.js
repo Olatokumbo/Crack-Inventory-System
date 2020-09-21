@@ -63,3 +63,9 @@ export const getCrackInfo = (id) =>{
         })
     }
 }
+
+export const resetCrackInfo = ()=>{
+  return(dispatch)=>{
+    dispatch({type: actionTypes.RESET_CRACK_INFO})
+  }
+}
