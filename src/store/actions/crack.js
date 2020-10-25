@@ -64,6 +64,19 @@ export const getCrackInfo = (id) =>{
     }
 }
 
+
+export const removeCrackInfo = (id) =>{
+  return ()=>{
+    firestore
+    .collection("cracks")
+    .doc(id)
+    .delete()
+    .then(()=>{
+        console.log("Entry has been deleted")
+    })
+  }
+}
+
 export const resetCrackInfo = ()=>{
   return(dispatch)=>{
     dispatch({type: actionTypes.RESET_CRACK_INFO})

@@ -6,19 +6,27 @@ import {
   CardHeader,
   Grid,
   CircularProgress,
+  Button
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import moment from "moment";
+import {useHistory} from "react-router-dom";
 import * as actionCreator from "../../store/actions";
 import style from "./CrackInfo.module.css";
 const CrackInfo = ({
   crackInfo,
   getCrackInfo,
   resetCrackInfo,
+  deleteCrackInfo,
   match: {
     params: { crackId },
   },
 }) => {
+  const history  = useHistory();
+  const deleteEntry = () =>{
+    deleteCrackInfo(crackId)
+    history.push("/home");
+  }
   useEffect(() => {
     getCrackInfo(crackId);
 
@@ -37,7 +45,10 @@ const CrackInfo = ({
       <div className={style.crackInfo}>
         <div className={style.crackInfo_body}>
           <Grid component={Card} className={style.card}>
+            <div className={style.header}>
             <CardHeader title="Crack Info" />
+            <Button color="secondary" variant="contained" className={style.deleteBtn} onClick={deleteEntry}>Delete</Button>
+            </div>
             <CardContent className={style.cardContent}>
               <Typography variant="h6">
                 Structure Name: {crackInfo.name}
@@ -66,6 +77,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCrackInfo: (id) => dispatch(actionCreator.getCrackInfo(id)),
     resetCrackInfo: () => dispatch(actionCreator.resetCrackInfo()),
+    deleteCrackInfo: (id)=> dispatch(actionCreator.removeCrackInfo(id))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CrackInfo);
