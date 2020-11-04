@@ -12,6 +12,7 @@ import {
   IconButton,
   Card,
   CardContent,
+  TextField,
 } from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Link } from "react-router-dom";
@@ -20,25 +21,43 @@ import { connect } from "react-redux";
 import * as actionCreator from "../../store/actions";
 import moment from "moment";
 import style from "./Home.module.css";
-const Home = ({getCracks, cracks}) => {
+const Home = ({getCracks, cracks, searchCracks}) => {
   const [modalState, setModalState] = useState(false);
+  const [query, setQuery] = useState("");
+
   const openModal = ()=>{
     setModalState(true);
   }
   const closeModal =(value)=>{
     setModalState(!value);
   }
-
+  const search = async (e) =>{
+    e.preventDefault();
+   searchCracks(query);
+  }
+  const reset = () =>{
+    getCracks();
+    setQuery("");
+  }
   useEffect(()=>{
     getCracks()
   },[getCracks])
   return (
     <div className={style.home}>
       <div className={style.home_body}>
+        <div className={style.actions}>
         <Button size="large" color="primary" variant="contained" className={style.addButton} onClick={openModal}>
           Add Data
         </Button>
-        <Card>
+        <form onSubmit={search}>
+        <Button size="small" color="secondary" variant="contained" className={style.addButton} onClick={reset}>
+        Reset
+      </Button>
+        <TextField label="Search" name="search" value={query} variant="outlined" size="small" onChange={(e)=>setQuery(e.target.value)}/>
+        <Button type="submit" size="large" variant="outlined">Go</Button>
+        </form>
+        </div>
+        <Card style={{margin: 10}}>
           <CardContent>
             <Typography gutterBottom variant="h6">
               Database
@@ -55,7 +74,7 @@ const Home = ({getCracks, cracks}) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {cracks.map((data) => (
+                  {cracks.length >0 ? cracks.map((data) => (
                     <TableRow key={data.id}>
                       <TableCell component="th" scope="row">
                         {data.name}
@@ -67,11 +86,11 @@ const Home = ({getCracks, cracks}) => {
                         <Link to={`/crack/${data.id}`}>
                           <IconButton color="primary">
                             <VisibilityIcon />
-                          </IconButton>{" "}
+                          </IconButton>
                         </Link>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )): <Typography className={style.noResults}>No Results Found</Typography>}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -91,7 +110,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch)=>{
   return{
-    getCracks: ()=> dispatch(actionCreator.getCracks())
+    getCracks: ()=> dispatch(actionCreator.getCracks()),
+    searchCracks: (crack)=> dispatch(actionCreator.searchCracks(crack))
   }
 }
 

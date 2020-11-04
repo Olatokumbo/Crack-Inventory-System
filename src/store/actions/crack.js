@@ -82,3 +82,21 @@ export const resetCrackInfo = ()=>{
     dispatch({type: actionTypes.RESET_CRACK_INFO})
   }
 }
+
+export const searchCracks = (search) =>{
+  let data = [];
+  return (dispatch)=>{
+    firestore
+    .collection("cracks")
+    .where("name", "==", search) 
+    .get()
+    .then((querySnapshot)=>{
+      querySnapshot.forEach((doc)=>{
+        data.push({...{id: doc.id}, ...doc.data()});
+    })
+    }).then(()=>{
+      dispatch({type: actionTypes.SEARCH_CRACKS, cracks: data})
+    })
+
+  }
+} 

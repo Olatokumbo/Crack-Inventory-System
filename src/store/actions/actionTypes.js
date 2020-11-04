@@ -5,5 +5,6 @@ export const SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS";
 
 // Cracks
 export const VIEW_CRACKS = "VIEW_CRACKS";
+export const SEARCH_CRACKS = "SEARCH_CRACKS";
 export const VIEW_CRACK_INFO = "VIEW_CRACK_INFO";
 export const RESET_CRACK_INFO = "RESET_CRACK_INFO";

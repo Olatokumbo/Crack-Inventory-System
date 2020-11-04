@@ -11,6 +11,11 @@ const crackReducer = (state = intialState, action) => {
         ...state,
         cracks: action.cracks,
       };
+    case actionTypes.SEARCH_CRACKS:
+      return {
+        ...state,
+        cracks: action.cracks,
+      };
     case actionTypes.VIEW_CRACK_INFO:
       return {
         ...state,

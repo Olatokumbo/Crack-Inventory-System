@@ -7,10 +7,28 @@
 .home_body{
     padding: 0 10px;
 }
+.actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0.9rem;
+}
 
+.actions form{
+    display: flex;
+    align-items: center;
+}
+
+.actions form button{
+    margin: 0.5rem !important;
+}
 .addButton{
     margin: 1rem 0 !important;
 }
 .tableContainer{
     margin: 1rem 0  !important
+}
+
+.noResults{
+    margin: 1rem 1rem !important;
 }
