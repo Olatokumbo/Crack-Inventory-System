@@ -31,29 +31,38 @@
     place-items: center;
 }
 
-.cardContent > img{
-    width: 50rem;
+.crackPhoto{
+    height: 33rem !important;
     align-self: center;
     border-radius: 5px;
     margin: 1rem;
+    width: auto !important;
+    text-align: center;
     -webkit-box-shadow: 12px 9px 5px -7px rgba(0,0,0,0.75);
     -moz-box-shadow: 12px 9px 5px -7px rgba(0,0,0,0.75);
     box-shadow: 12px 9px 5px -7px rgba(0,0,0,0.75);
 }
 
+.CarouselItem{
+    text-align: center !important;
+}
+
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-    .cardContent > img{
-        width: 20rem;
+    .crackPhoto{
+        width: auto !important;
+        height: 14rem !important;
     }
     .crackInfo_body{
         padding: 1rem ;
     }
+    
   }
 
   @media only screen and (max-width: 414px) {
     /* For mobile phones: */
-    .cardContent > img{
-        width: 15rem;
+    .crackPhoto{
+        width: auto !important;
+        height: 12rem !important;
     }
   }

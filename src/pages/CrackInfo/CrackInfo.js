@@ -6,11 +6,12 @@ import {
   CardHeader,
   Grid,
   CircularProgress,
-  Button
+  Button,
 } from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
 import { connect } from "react-redux";
 import moment from "moment";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as actionCreator from "../../store/actions";
 import style from "./CrackInfo.module.css";
 const CrackInfo = ({
@@ -22,11 +23,11 @@ const CrackInfo = ({
     params: { crackId },
   },
 }) => {
-  const history  = useHistory();
-  const deleteEntry = () =>{
-    deleteCrackInfo(crackId)
+  const history = useHistory();
+  const deleteEntry = () => {
+    deleteCrackInfo(crackId);
     history.push("/home");
-  }
+  };
   useEffect(() => {
     getCrackInfo(crackId);
 
@@ -46,8 +47,15 @@ const CrackInfo = ({
         <div className={style.crackInfo_body}>
           <Grid component={Card} className={style.card}>
             <div className={style.header}>
-            <CardHeader title="Crack Info" />
-            <Button color="secondary" variant="contained" className={style.deleteBtn} onClick={deleteEntry}>Delete</Button>
+              <CardHeader title="Crack Info" />
+              <Button
+                color="secondary"
+                variant="contained"
+                className={style.deleteBtn}
+                onClick={deleteEntry}
+              >
+                Delete
+              </Button>
             </div>
             <CardContent className={style.cardContent}>
               <Typography variant="h6">
@@ -55,13 +63,18 @@ const CrackInfo = ({
               </Typography>
               <Typography>Location: {crackInfo.location}</Typography>
               <Typography>Author: {crackInfo.author}</Typography>
-              <Typography>Entry Date: { (crackInfo?.timestamp) ? moment(crackInfo.timestamp.toDate()).format('MMMM D YYYY') : "Loading..."}</Typography>
-              <div className={style.imageContainers}>
-              {crackInfo.photoUrl.map((data)=><img className={style.crackPhoto} src={data} alt="crack"/>)}
-              </div>
               <Typography>
-                Remarks: {crackInfo.recommendation}
+                Entry Date:{" "}
+                {crackInfo?.timestamp
+                  ? moment(crackInfo.timestamp.toDate()).format("MMMM D YYYY")
+                  : "Loading..."}
               </Typography>
+              <Carousel autoPlay={false} className={style.CarouselItem}>
+                {crackInfo.photoUrl.map((data) => (
+                  <img className={style.crackPhoto} src={data} alt="crack" />
+                ))}
+              </Carousel>
+              <Typography>Remarks: {crackInfo.recommendation}</Typography>
             </CardContent>
           </Grid>
         </div>
@@ -79,7 +92,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCrackInfo: (id) => dispatch(actionCreator.getCrackInfo(id)),
     resetCrackInfo: () => dispatch(actionCreator.resetCrackInfo()),
-    deleteCrackInfo: (id)=> dispatch(actionCreator.removeCrackInfo(id))
+    deleteCrackInfo: (id) => dispatch(actionCreator.removeCrackInfo(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CrackInfo);
