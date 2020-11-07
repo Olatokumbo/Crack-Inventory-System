@@ -32,7 +32,16 @@ const EntryModal = ({ modalState, closeModal, displayName, addCrack }) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [recommendation, setRecommendation] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([])
+
+const onFileChange = e => {
+ for (let i = 0; i < e.target.files.length; i++) {
+      const newFile = e.target.files[i];
+      newFile["id"] = Math.random();
+   // add an "id" property to each File object
+      setImage(prevState => [...prevState, newFile]);
+    }
+  };
   const handleClose = () => {
     closeModal(true);
   };
@@ -82,9 +91,8 @@ const EntryModal = ({ modalState, closeModal, displayName, addCrack }) => {
                 className={style.displayPhoto}
                 id="raised-button-file"
                 type="file"
-                onChange={(e) => {
-                  setImage(e.target.files[0]);
-                }}
+                multiple
+                onChange={onFileChange}
                 required
               />
               <TextField
@@ -99,7 +107,7 @@ const EntryModal = ({ modalState, closeModal, displayName, addCrack }) => {
                 rowsMin={10}
                 rowsMax={20}
                 aria-label="maximum height"
-                placeholder="Recommendation"
+                placeholder="Remarks"
                 onChange={(e)=>setRecommendation(e.target.value)}
               />
               <Button

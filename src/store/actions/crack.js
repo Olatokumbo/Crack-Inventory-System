@@ -2,40 +2,54 @@ import firebase, {firestore,storage} from "../../firebase/firebase";
 import * as actionTypes from "./actionTypes";
 export const addCrack = (data) => {
     return () => {
-    const date = new Date();
-      let uploadTask = storage.ref(`cracks/${date}_${data.image.name}`).put(data.image);
-  
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-        //   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //   dispatch({ type: actionTypes.START_PROGRESS, progress });
-        },
-        (error) => {
-          console.log(error);
-          alert(error.message);
-        },
-        () => {
-          storage
-            .ref("cracks")
-            .child(`${date}_${data.image.name}`)
-            .getDownloadURL()
-            .then((url) => {
-              firestore.collection("cracks").add({
-                name: data.name,
-                author: data.displayName,
-                location: data.location,
-                recommendation: data.recommendation,
-                photoURL: url,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      var ID ="";
+      firestore.collection("cracks").add({
+        name: data.name,
+        author: data.displayName,
+        location: data.location,
+        recommendation: data.recommendation,
+        photoUrl: [],
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      }).then((doc)=>{
+        ID = doc.id;
+        const promises = [];
+        let urls =[];
+        data.image.forEach(file => {
+          let uploadTask = storage.ref(`cracks/${file.id}`).put(file);
+          promises.push(uploadTask);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+            //   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            //   dispatch({ type: actionTypes.START_PROGRESS, progress });
+            },
+            (error) => {
+              console.log(error);
+              alert(error.message);
+            },
+            async () => {
+              await uploadTask.snapshot.ref.getDownloadURL().then((data)=>{
+                urls.push(data);
+                console.log(data);
+              }).then(()=>{
+                firestore
+                .collection("cracks")
+                .doc(ID)
+                .update({
+                  photoUrl: urls
+                })
               });
-            //   dispatch({ type: actionTypes.RESET_PROGRESS });
-            });
-        }
-      );
+            }
+          );
+        });
+        Promise.all(promises)
+         .then((data) => console.log(data))
+         .catch(err => console.log(err.code));
+      });
     };
   };
-  
+
+
 export const getCracks = () =>{
       return (dispatch)=>{
           let cracks = [];

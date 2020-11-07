@@ -56,9 +56,11 @@ const CrackInfo = ({
               <Typography>Location: {crackInfo.location}</Typography>
               <Typography>Author: {crackInfo.author}</Typography>
               <Typography>Entry Date: { (crackInfo?.timestamp) ? moment(crackInfo.timestamp.toDate()).format('MMMM D YYYY') : "Loading..."}</Typography>
-              <img src={crackInfo.photoURL} alt="Crack_Image" />
+              <div className={style.imageContainers}>
+              {crackInfo.photoUrl.map((data)=><img className={style.crackPhoto} src={data} alt="crack"/>)}
+              </div>
               <Typography>
-                Recommendation: {crackInfo.recommendation}
+                Remarks: {crackInfo.recommendation}
               </Typography>
             </CardContent>
           </Grid>
