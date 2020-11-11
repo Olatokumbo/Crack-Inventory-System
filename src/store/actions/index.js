@@ -1,4 +1,4 @@
-export { startSignin, startSignout } from "./auth";
+export { startSignin, startSignout, setAdmin } from "./auth";
 export {
   addCrack,
   getCracks,

@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 import "firebase/auth";
 import "firebase/storage";
+import "firebase/functions"
 
 var firebaseConfig = {
     apiKey: "AIzaSyBTF7qLv8grqjAGQl2vM_MC4KJB7_0D_R8",
@@ -24,4 +25,5 @@ provider.setCustomParameters({
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
-export {firebase as default, firestore, auth, storage, provider};
+const functions = firebase.functions();
+export {firebase as default, firestore, auth, storage, provider, functions};

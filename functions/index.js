@@ -24,3 +24,18 @@ const addUser = (userInfo)=>{
     .add(userInfo)
     .then(doc => console.log("User Profile has been created", doc) )
 }
+
+exports.addAdminRole = functions.https.onCall((data, context) => {
+    return admin
+      .auth()
+      .getUserByEmail(data.email)
+      .then((user) => {
+        return admin.auth().setCustomUserClaims(user.uid, { admin: true });
+      })
+      .then(() => {
+        return { message: `Success! ${data.email} was been made an admin` };
+      })
+      .catch((err) => {
+        return err;
+      });
+  });

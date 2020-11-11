@@ -1,4 +1,4 @@
-import { provider, auth } from "../../firebase/firebase";
+import { provider, auth, functions } from "../../firebase/firebase";
 import * as actionTypes from "./actionTypes";
 export const startSignin = () => {
   return () => {
@@ -20,4 +20,11 @@ export const startSignout = () => {
       dispatch({ type: actionTypes.SIGNOUT_SUCCESS });
     });
   };
+};
+
+export const setAdmin = (email) => {
+  const addAdminRole = functions.httpsCallable("addAdminRole");
+  addAdminRole({ email }).then((results) => {
+    console.log(results);
+  });
 };
