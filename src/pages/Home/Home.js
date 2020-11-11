@@ -18,10 +18,13 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Link } from "react-router-dom";
 import EntryModal from "../../components/EntryModal/EntryModal";
 import { connect } from "react-redux";
+import {useHistory} from "react-router-dom"
 import * as actionCreator from "../../store/actions";
 import moment from "moment";
+
 import style from "./Home.module.css";
 const Home = ({getCracks, cracks, searchCracks}) => {
+  const history = useHistory();
   const [modalState, setModalState] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -97,6 +100,7 @@ const Home = ({getCracks, cracks, searchCracks}) => {
           </CardContent>
         </Card>
       </div>
+      <Button onClick={() => history.push('/settings')}>...</Button>
       <EntryModal modalState={modalState} closeModal={closeModal}/>
     </div>
   );

@@ -4,7 +4,7 @@ export const addCrack = (data) => {
     return () => {
       var ID ="";
       firestore.collection("cracks").add({
-        name: data.name,
+        name: convertedText(data.name),
         author: data.displayName,
         location: data.location,
         recommendation: data.recommendation,
@@ -97,12 +97,18 @@ export const resetCrackInfo = ()=>{
   }
 }
 
+const convertedText = (s) => {
+  s = s.toLowerCase();
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 export const searchCracks = (search) =>{
   let data = [];
   return (dispatch)=>{
     firestore
     .collection("cracks")
-    .where("name", "==", search) 
+    .where("name", "==", convertedText(search)) 
     .get()
     .then((querySnapshot)=>{
       querySnapshot.forEach((doc)=>{

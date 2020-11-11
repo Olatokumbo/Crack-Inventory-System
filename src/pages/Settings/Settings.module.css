@@ -1,0 +1,14 @@
+.settings{
+    display: grid;
+    place-items: center;
+    padding: 3rem;
+}
+
+.settings form{
+    display: flex;
+    align-items: center;
+}
+
+form .input{
+    margin: 1rem !important;
+}

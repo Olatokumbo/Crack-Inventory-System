@@ -11,7 +11,7 @@ import App from "./App";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   auth: authReducer,
-  crack: crackReducer
+  crack: crackReducer,
 });
 
 const store = createStore(
@@ -19,18 +19,26 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-firebase.auth().onAuthStateChanged((user)=>{
+firebase.auth().onAuthStateChanged((user) => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
     document.getElementById("root")
   );
-  
-  if(user){
-    store.dispatch({type: actionTypes.SIGNIN_SUCCESS, uid: user.uid, displayName: user.displayName})
+
+  if (user) {
+    user.getIdTokenResult().then((idTokenResult) => {
+      console.log(idTokenResult.claims);
+      if (idTokenResult.claims.admin) {
+        store.dispatch({
+          type: actionTypes.SIGNIN_SUCCESS,
+          uid: user.uid,
+          displayName: user.displayName,
+        });
+      }
+    });
+  } else {
+    console.log("LOGGED OUT");
   }
-  else{
-    console.log("LOGGED OUT")
-  }
-})
+});

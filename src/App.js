@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home";
 import CrackInfo from "./pages/CrackInfo/CrackInfo";
 import PrivateRoute from "./hoc/PrivateRoute";
 import PublicRoute from "./hoc/PublicRoute";
+import Settings from "./pages/Settings/Settings";
 import "./App.css";
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <PublicRoute exact path="/" component={Signin} />
         <PrivateRoute path="/home" component={Home} />
         <PrivateRoute path="/crack/:crackId" component={CrackInfo}/>
+        <PrivateRoute path="/settings" component={Settings}/>
       </Switch>
     </Router>
   );
